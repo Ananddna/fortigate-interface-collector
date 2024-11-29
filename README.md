@@ -1,4 +1,4 @@
-FortiGate Firewall Interface Status and Info Collector
+#FortiGate Firewall Interface Status and Info Collector
 
 Overview
 
