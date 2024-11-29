@@ -1,99 +1,109 @@
----
-
-# FortiGate Firewall Interface Status and Info Collector
+# FortiGate Firewall Interface Status Collector
 
 ## Overview
-This project is a Python-based tool designed to connect to FortiGate firewalls, collect interface statuses, and analyze interface activity. It helps network engineers easily monitor and troubleshoot devices by providing detailed information about physical, VLAN, aggregate, and tunnel interfaces. The tool supports multithreaded data collection for enhanced efficiency.
+
+This Python script connects to FortiGate firewalls to collect interface statuses and analyze interface activity. The goal is to help network engineers easily monitor and troubleshoot devices by providing detailed information about physical, VLAN, aggregate, and other types of interfaces.
 
 ## Features
-- **Collects Interface Data**: Retrieves information about physical, VLAN, aggregate, and tunnel interfaces from FortiGate firewalls.
-- **Multithreaded Collection**: Utilizes multithreading to gather data from multiple devices concurrently, improving efficiency.
-- **Analyzes Interface Status**: Identifies active versus inactive interfaces, providing a detailed status overview.
-- **Supports Various Interface Types**: Handles physical, VLAN, aggregate, and special interfaces (e.g., SSL VPN).
 
-## Prerequisites
-- Python 3.8 or newer.
-- Access credentials for the FortiGate devices.
-- Network reachability to FortiGate devices (SSH access).
+- **Interface Data Collection**: Retrieves interface information from FortiGate firewalls, including configuration, physical status, and network link details.
+- **Multithreading**: Utilizes multithreading to collect data from multiple devices concurrently, improving efficiency.
+- **Supports Various Interface Types**: Analyzes physical, VLAN, aggregate, SSL VPN, and management interfaces for activity status.
+- **CSV Output**: Outputs interface status to a CSV file for easy review and reporting.
 
-## Installation
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/fortigate-interface-collector.git
-    ```
+## Requirements
 
-2. Navigate to the project directory:
-    ```bash
-    cd fortigate-interface-collector
-    ```
+- Python 3.8+
+- Libraries: 
+  - `netmiko`
+  - `pandas`
+  - `concurrent.futures`
 
-3. Create a virtual environment (optional but recommended):
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use venv\Scripts\activate
-    ```
+Install the required dependencies using:
 
-4. Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-## Usage
-1. Prepare the Inventory File: Create or modify `sample_inventory.csv` with your FortiGate device information. The CSV should have columns like `Device_Name`, `IP_Address`, and `Device_Type`.
-
-    Example:
-    ```csv
-    Device_Name,IP_Address,Device_Type
-    FortiGate1,192.168.1.1,fortinet
-    FortiGate2,192.168.1.2,fortinet
-    ```
-
-2. Run the Script:
-    ```bash
-    python fortigate_interface_collector.py
-    ```
-
-## Options
-- Customize the credentials list inside the script or adjust the timeout settings as per your network requirements.
-
-## Expected Output
-- **CSV File**: The script generates a CSV file (`interfacestatus.csv`) that contains information about each interface, including:
-  - Device Name
-  - Interface Name
-  - Status (Up/Down)
-  - IP Address (if applicable)
-  - Interface Type (e.g., physical, VLAN)
-  - Active Status
-- **Logs**: The script also creates a log file (`interface_status.log`) to capture the status of each connection and any errors encountered.
-
-## Deployment
-- **Scheduling**: To automate interface collection, you can schedule the script using cron on Linux or Task Scheduler on Windows.
-
-    Example cron job to run the script daily at 2 AM:
-    ```bash
-    0 2 * * * /usr/bin/python3 /path/to/fortigate-interface-collector.py
-    ```
-
-## Sample Output
-The output CSV will look similar to:
-```csv
-Device,Interface_Name,Original_Name,Status,Is_Active,Type,IP_Address,Parent_Interface
-FortiGate1,wan1,wan1,up,True,physical,192.168.1.1,
-FortiGate1,lan1,lan1,up,True,vlan,192.168.10.1,wan1
+```bash
+pip install -r requirements.txt
 ```
 
+## Installation
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/yourusername/fortigate-interface-collector.git
+   cd fortigate-interface-collector
+   ```
+
+2. **Create a Virtual Environment (optional)**
+
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+
+3. **Install Dependencies**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Usage
+
+1. **Prepare Inventory File**
+
+   Ensure you have a CSV file (`consolidated_inventory_firewall.csv`) with the following format:
+
+   ```csv
+   Device_Name,IP_Address,Device_Type
+   FortiGate1,192.168.1.1,fortinet
+   FortiGate2,192.168.1.2,fortinet
+   ```
+
+2. **Update Credentials**
+
+   Update the `credentials` list in the script with your FortiGate login details. Replace sensitive information with your own credentials.
+
+3. **Run the Script**
+
+   ```bash
+   python fortigate_interface_collector.py
+   ```
+
+4. **Output**
+
+   The script generates a CSV file (`interface_status_<timestamp>.csv`) that contains the interface status information for all the devices.
+
+## Example Output
+
+The output CSV file will have columns like:
+
+- **Device**: Device name
+- **Interface_Name**: Display name of the interface
+- **Original_Name**: Original interface name
+- **Status**: Interface status (up/down)
+- **Is_Active**: Boolean indicating whether the interface is active
+- **Type**: Interface type (physical, VLAN, etc.)
+- **IP_Address**: Interface IP address
+- **Parent_Interface**: Parent interface if applicable
+
+## Logging
+
+Logs are generated in the `interface_status.log` file, capturing the connection status for each device and any errors encountered.
+
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+
+This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
 ## Contributing
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+
+Contributions are welcome! Please fork the repository, create a branch, and submit a pull request for any improvements or bug fixes.
 
 ## Future Improvements
-- **Scalability**: Enhance the script to handle a larger number of devices.
-- **Data Visualization**: Integrate with tools like Grafana or Power BI for visualizing interface statuses over time.
-- **Email Notifications**: Add an option to send email alerts when critical interfaces are down.
+
+- **Scalability**: Enhance the script to support larger environments with hundreds of devices.
+- **Visualization**: Add data visualization to monitor interface activity over time.
+- **Alerting**: Integrate with a notification system to alert on critical interface status changes.
 
 ## Contact
-For any questions or suggestions, please contact anandmani5596@gmail.com.
 
----
+For any questions or issues, please open an issue on GitHub.
