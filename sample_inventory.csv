@@ -1,0 +1,3 @@
+Device_Name,IP_Address,Device_Type
+FortiGate1,192.168.1.1,fortinet
+FortiGate2,192.168.1.2,fortinet
