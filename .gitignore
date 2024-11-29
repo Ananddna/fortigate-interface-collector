@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
+venv/
+interface_status.log
 
 # C extensions
 *.so
